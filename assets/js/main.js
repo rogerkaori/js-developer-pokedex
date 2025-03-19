@@ -45,3 +45,34 @@ loadMoreButton.addEventListener('click', () => {
         loadPokemonItens(offset, limit)
     }
 })
+
+// Adicionando detalhes ao pokemon  
+pokemonList.addEventListener('click', (event) => {
+    const pokemonItem = event.target.closest('.pokemon');
+    if (pokemonItem) {
+        const pokemonName = pokemonItem.querySelector('.name').textContent;
+        const pokemonNumber = pokemonItem.querySelector('.number').textContent;
+        const pokemonImage = pokemonItem.querySelector('img').src;
+        const pokemonTypes = Array.from(
+            pokemonItem.querySelectorAll('.type')
+        ).map((typeElement) => typeElement.textContent);
+
+        // Cria um simples modal com os detalhes
+        const modal = document.createElement('div');
+        modal.className = 'pokemon-modal';
+        modal.innerHTML = `
+            <div class="pokemon-modal-content">
+                <h2>${pokemonName} ${pokemonNumber}</h2>
+                <img src="${pokemonImage}" alt="${pokemonName}">
+                <p><strong>Tipos:</strong> ${pokemonTypes.join(', ')}</p>
+                <button id="closeModal">Fechar</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Fecha o modal ao clicar no botão "Fechar"
+        modal.querySelector('#closeModal').addEventListener('click', () => {
+            modal.remove();
+        });
+    }
+});
